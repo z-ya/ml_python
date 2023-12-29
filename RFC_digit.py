@@ -14,7 +14,7 @@ random_forest_clf = RandomForestClassifier(n_jobs=-1, max_features='sqrt')
 features_train, features_test, target_train, target_test = train_test_split(images_features, images_target, test_size=0.3)
 
 param_grid = {
-    'n-estimators': [10, 100, 500, 1000],
+    'n_estimators': [10, 100, 500, 1000],
     'max_depth':[1, 5, 10, 15],
     'min_samples_leaf':[1, 2, 4, 10, 15, 30, 50]
 }
@@ -27,6 +27,13 @@ optimal_estimators = grid_search.best_params_.get('n_estimators')
 optimal_depth = grid_search.best_params_.get('max_depth')
 optimal_leaf = grid_search.best_params_.get('min_samples_leaf')
 
+print('optimal estimators: %s' % optimal_estimators)
+print('optimal depth: %s' % optimal_depth)
+print('optimal leaf: %s' % optimal_leaf)
+
+grid_prediction = grid_search.predict(features_test)
+print(confusion_matrix(target_test, grid_prediction))
+print(accuracy_score(target_test, grid_prediction))
 
 
 
