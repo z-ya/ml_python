@@ -29,6 +29,7 @@ pca = PCA(n_components=100, whiten=True)
 pca.fit(X_train)
 X_train_pca = pca.transform(X_train)
 X_test_pca = pca.transform(X_test)
+X_pca = pca.fit_transform(features)
 
 models = [("Logistic resression", LogisticRegression()), ("Support Vector Machine", SVC()), ("Naive Bayes Classifier", GaussianNB())]
 for name, model in models:
@@ -38,7 +39,8 @@ for name, model in models:
    # print("Results with %s" % name)
    # print("Accuracy score: %s" % (metrics.accuracy_score(y_test, y_predicted)))
    kfold = KFold(n_splits=5, shuffle=True, random_state=0)
-   cv_score = cross_val_score(model, X_train_pca, targets)
+   cv_score = cross_val_score(model, X_pca, targets, cv = kfold)
+   print("Mean of the cross-validation scores: %s" % cv_score.mean())
 #number_of_eigenfaces = len(pca.components_)
 #eigen_faces = pca.components_.reshape(number_of_eigenfaces, 64, 64)
 #fig, sub_plots = plt.subplots(nrows=10, ncols = 10, figsize = (15,15))
